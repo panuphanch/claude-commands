@@ -11,7 +11,7 @@ Allows easy `git pull` updates while keeping commands in sync.
 ```bash
 # Clone the repository
 cd ~/.claude
-git clone https://github.com/YOUR_USERNAME/claude-commands.git
+git clone https://github.com/panuphanch/claude-commands.git
 
 # Create symlinks for all commands
 ln -sf ~/.claude/claude-commands/*.md ~/.claude/commands/
@@ -21,7 +21,7 @@ ln -sf ~/.claude/claude-commands/*.md ~/.claude/commands/
 
 ```bash
 # Clone and run install script
-git clone https://github.com/YOUR_USERNAME/claude-commands.git
+git clone https://github.com/panuphanch/claude-commands.git
 cd claude-commands
 chmod +x install.sh
 ./install.sh
@@ -35,7 +35,7 @@ cp -r ~/.claude/commands ~/.claude/commands.backup
 
 # Clone directly to commands directory
 cd ~/.claude
-git clone https://github.com/YOUR_USERNAME/claude-commands.git commands
+git clone https://github.com/panuphanch/claude-commands.git commands
 ```
 
 ## Available Commands

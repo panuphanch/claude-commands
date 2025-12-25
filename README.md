@@ -45,6 +45,7 @@ git clone https://github.com/panuphanch/claude-commands.git commands
 | `/jira-bug` | Generate a Jira bug ticket with proper format |
 | `/daily-note` | Update daily notes from conversation context |
 | `/create-command` | Generate a new slash command template |
+| `/rc-test` | Test Iron Software product RC releases as QA Engineer |
 
 ### `/jira-bug`
 
@@ -90,6 +91,46 @@ Generate a new slash command template (meta-command).
 /create-command pr-review    # Generate template for new command
 /create-command              # Interactive mode
 ```
+
+### `/rc-test`
+
+Test Iron Software product Release Candidate as a QA Engineer.
+
+```bash
+/rc-test Word 2025.11.39-prerelease                    # Test IronWord RC
+/rc-test Pdf 2025.12.1                                  # Test IronPdf RC
+/rc-test Ocr 2025.12.2-prerelease39687 /path/notes.txt  # With custom release notes
+```
+
+**Arguments:**
+
+| Arg | Description | Example |
+|-----|-------------|---------|
+| `$1` | Product name | Word, Pdf, Ocr, Barcode, Xl |
+| `$2` | Version | 2025.11.39-prerelease |
+| `$3` | Release notes path (optional) | /path/to/notes.txt |
+
+**Workflow Phases:**
+
+| Phase | Description |
+|-------|-------------|
+| 0 | Environment check (PAT, nuget.config, license key) |
+| 1 | Project setup (create or verify test project structure) |
+| 2 | Test planning (read release notes, research API, create test steps) |
+| 3 | Test implementation (create test classes) |
+| 4 | Test execution (`dotnet run`) |
+| 5 | Validation (manual review of output files) |
+| 6 | Reporting (summary, final report, Slack message) |
+
+**Configuration:**
+- Tests Location: `/mnt/c/IronSoftware/IronRCTests/{Product}Tests/`
+- Private NuGet Feeds: Asked from user (not stored for security)
+- License Key: Placeholder `IRON{PRODUCT}_LICENSE_KEY_HERE`
+
+**Output Files:**
+- `docs/test-steps/IRON{PRODUCT}_YYYY_MM_TEST_STEPS.md`
+- `docs/test-results/IRON{PRODUCT}_YYYY_MM_RC_TEST_SUMMARY.md`
+- Slack release message (on approval)
 
 ## Documentation
 

@@ -45,6 +45,8 @@ git clone https://github.com/panuphanch/claude-commands.git commands
 | `/jira-bug` | Generate a Jira bug ticket with proper format |
 | `/daily-note` | Update daily notes from conversation context |
 | `/create-command` | Generate a new slash command template |
+| `/rc-test` | Test Iron Software product RC releases as QA Engineer |
+| `/rc-test-python` | Test Iron Software Python packages as QA Engineer |
 | `/session-start` | Start a new development session |
 | `/session-update` | Add progress update to current session |
 | `/session-end` | End session with comprehensive summary |
@@ -96,6 +98,79 @@ Generate a new slash command template (meta-command).
 /create-command              # Interactive mode
 ```
 
+### `/rc-test`
+
+Test Iron Software product Release Candidate as a QA Engineer.
+
+```bash
+/rc-test Word 2025.11.39-prerelease                    # Test IronWord RC
+/rc-test Pdf 2025.12.1                                  # Test IronPdf RC
+/rc-test Ocr 2025.12.2-prerelease39687 /path/notes.txt  # With custom release notes
+```
+
+**Arguments:**
+
+| Arg | Description | Example |
+|-----|-------------|---------|
+| `$1` | Product name | Word, Pdf, Ocr, Barcode, Xl |
+| `$2` | Version | 2025.11.39-prerelease |
+| `$3` | Release notes path (optional) | /path/to/notes.txt |
+
+**Workflow Phases:**
+
+| Phase | Description |
+|-------|-------------|
+| 0 | Environment check (PAT, nuget.config, license key) |
+| 1 | Project setup (create or verify test project structure) |
+| 2 | Test planning (read release notes, research API, create test steps) |
+| 3 | Test implementation (create test classes) |
+| 4 | Test execution (`dotnet run`) |
+| 5 | Validation (manual review of output files) |
+| 6 | Reporting (summary, final report, Slack message) |
+
+**Configuration:**
+- Tests Location: `/mnt/c/IronSoftware/IronRCTests/{Product}Tests/`
+- Private NuGet Feeds: Asked from user (not stored for security)
+- License Key: Placeholder `IRON{PRODUCT}_LICENSE_KEY_HERE`
+
+**Output Files:**
+- `docs/test-steps/IRON{PRODUCT}_YYYY_MM_TEST_STEPS.md`
+- `docs/test-results/IRON{PRODUCT}_YYYY_MM_RC_TEST_SUMMARY.md`
+- Slack release message (on approval)
+
+### `/rc-test-python`
+
+Test Iron Software Python packages as a QA Engineer.
+
+```bash
+/rc-test-python Xl 2025.12.0.2                          # Test IronXL Python
+/rc-test-python Pdf 2025.12.1                           # Test IronPdf Python
+```
+
+**Arguments:**
+
+| Arg | Description | Example |
+|-----|-------------|---------|
+| `$1` | Product name | Pdf, Xl, Ocr |
+| `$2` | Version | 2025.12.0.2 |
+| `$3` | Release notes path (optional) | /path/to/notes.txt |
+
+**Workflow Phases:** Same as `/rc-test` but adapted for Python
+
+| Phase | Description |
+|-------|-------------|
+| 0 | Environment check (Python, venv, pip config, keyring) |
+| 1 | Project setup (venv, requirements.txt) |
+| 2 | Test planning (release notes, Python API docs) |
+| 3 | Test implementation (`test.py`) |
+| 4 | Test execution (`python test.py`) - Windows & Linux |
+| 5 | Validation (manual review of output files) |
+| 6 | Reporting (summary with platform status) |
+
+**Configuration:**
+- Tests Location: `/mnt/c/IronSoftware/IronRCTests/python-test-iron{product}/`
+- Private PyPI Feeds: Asked from user (not stored for security)
+- Multi-platform testing: Windows, Linux, macOS
 ### Session Management Commands
 
 Commands for tracking development sessions across Claude Code conversations.

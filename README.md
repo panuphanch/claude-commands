@@ -47,6 +47,11 @@ git clone https://github.com/panuphanch/claude-commands.git commands
 | `/create-command` | Generate a new slash command template |
 | `/rc-test` | Test Iron Software product RC releases as QA Engineer |
 | `/rc-test-python` | Test Iron Software Python packages as QA Engineer |
+| `/session-start` | Start a new development session |
+| `/session-update` | Add progress update to current session |
+| `/session-end` | End session with comprehensive summary |
+| `/session-current` | Show current session status |
+| `/session-list` | List all session files |
 
 ### `/jira-bug`
 
@@ -166,6 +171,71 @@ Test Iron Software Python packages as a QA Engineer.
 - Tests Location: `/mnt/c/IronSoftware/IronRCTests/python-test-iron{product}/`
 - Private PyPI Feeds: Asked from user (not stored for security)
 - Multi-platform testing: Windows, Linux, macOS
+### Session Management Commands
+
+Commands for tracking development sessions across Claude Code conversations.
+
+**Storage:** `~/.claude/sessions/`
+
+#### `/session-start`
+
+Start a new development session with progress tracking.
+
+```bash
+/session-start authentication-refactor   # With descriptive name
+/session-start                            # Timestamp-only session
+```
+
+#### `/session-update`
+
+Add timestamped progress update to current session.
+
+```bash
+/session-update Fixed OAuth token refresh   # With custom notes
+/session-update                              # Auto-summarize recent activity
+```
+
+#### `/session-end`
+
+End session with comprehensive summary including:
+- Duration and timing
+- Git changes summary
+- Todo items completed/remaining
+- Key accomplishments
+- Problems and solutions
+- Tips for future developers
+
+```bash
+/session-end
+```
+
+#### `/session-current`
+
+Show current session status (name, duration, recent updates).
+
+```bash
+/session-current
+```
+
+#### `/session-list`
+
+List all session files sorted by date.
+
+```bash
+/session-list
+```
+
+#### Session Workflow Example
+
+```bash
+/session-start user-authentication
+# Work on implementation...
+/session-update Added middleware and login page
+# Fix issues...
+/session-update Resolved Next.js 15 async cookie issue
+# When done...
+/session-end
+```
 
 ## Documentation
 

@@ -18,6 +18,14 @@ if [ ! -d "$COMMANDS_DIR" ]; then
     mkdir -p "$COMMANDS_DIR"
 fi
 
+# Create sessions directory for session management commands
+SESSIONS_DIR="$HOME/.claude/sessions"
+if [ ! -d "$SESSIONS_DIR" ]; then
+    echo "Creating $SESSIONS_DIR..."
+    mkdir -p "$SESSIONS_DIR"
+    touch "$SESSIONS_DIR/.current-session"
+fi
+
 # Create symlinks for all .md files (except README)
 echo "Creating symlinks..."
 for file in "$SCRIPT_DIR"/*.md; do

@@ -46,6 +46,7 @@ git clone https://github.com/panuphanch/claude-commands.git commands
 | `/daily-note` | Update daily notes from conversation context |
 | `/create-command` | Generate a new slash command template |
 | `/rc-test` | Test Iron Software product RC releases as QA Engineer |
+| `/rc-test-python` | Test Iron Software Python packages as QA Engineer |
 
 ### `/jira-bug`
 
@@ -131,6 +132,40 @@ Test Iron Software product Release Candidate as a QA Engineer.
 - `docs/test-steps/IRON{PRODUCT}_YYYY_MM_TEST_STEPS.md`
 - `docs/test-results/IRON{PRODUCT}_YYYY_MM_RC_TEST_SUMMARY.md`
 - Slack release message (on approval)
+
+### `/rc-test-python`
+
+Test Iron Software Python packages as a QA Engineer.
+
+```bash
+/rc-test-python Xl 2025.12.0.2                          # Test IronXL Python
+/rc-test-python Pdf 2025.12.1                           # Test IronPdf Python
+```
+
+**Arguments:**
+
+| Arg | Description | Example |
+|-----|-------------|---------|
+| `$1` | Product name | Pdf, Xl, Ocr |
+| `$2` | Version | 2025.12.0.2 |
+| `$3` | Release notes path (optional) | /path/to/notes.txt |
+
+**Workflow Phases:** Same as `/rc-test` but adapted for Python
+
+| Phase | Description |
+|-------|-------------|
+| 0 | Environment check (Python, venv, pip config, keyring) |
+| 1 | Project setup (venv, requirements.txt) |
+| 2 | Test planning (release notes, Python API docs) |
+| 3 | Test implementation (`test.py`) |
+| 4 | Test execution (`python test.py`) - Windows & Linux |
+| 5 | Validation (manual review of output files) |
+| 6 | Reporting (summary with platform status) |
+
+**Configuration:**
+- Tests Location: `/mnt/c/IronSoftware/IronRCTests/python-test-iron{product}/`
+- Private PyPI Feeds: Asked from user (not stored for security)
+- Multi-platform testing: Windows, Linux, macOS
 
 ## Documentation
 

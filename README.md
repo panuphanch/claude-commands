@@ -56,6 +56,7 @@ git clone https://github.com/panuphanch/claude-commands.git commands
 | `/weekly-note` | Generate weekly log for Slack sharing |
 | `/legacy-card` | Create Trello card from Jira issue (Legacy Team) |
 | `/weekly-release` | Move done cards to testing and create weekly log |
+| `/ironpdf-issue` | Manage GitHub issues for Universal.IronPdf |
 
 ### `/jira-bug`
 
@@ -401,6 +402,39 @@ week: "DD-DD MMM YYYY"
 - Source List: Done This Week (merged)
 - Target List: Ready for Testing
 
+### `/ironpdf-issue`
+
+Manage GitHub issues for the Universal.IronPdf repository with intelligent content crafting.
+
+```bash
+/ironpdf-issue 8                                    # View issue #8
+/ironpdf-issue view 45                              # View issue #45
+/ironpdf-issue create "Add table extraction as CSV" --labels "feature: Extract"
+/ironpdf-issue edit 8 "Expand scope to support JSON output"
+/ironpdf-issue comment 8 "Started implementation, using PDFium APIs"
+```
+
+**Operations:**
+
+| Operation | Syntax | Description |
+|-----------|--------|-------------|
+| View | `/ironpdf-issue [number]` | View issue details |
+| Create | `/ironpdf-issue create "description" [--labels]` | Create new issue |
+| Edit | `/ironpdf-issue edit [number] "description"` | Edit existing issue |
+| Comment | `/ironpdf-issue comment [number] "description"` | Add comment |
+
+**Intelligent Content Crafting:**
+
+Unlike raw `gh` CLI, Claude crafts professional content from your descriptions:
+
+- **Title**: Concise title following project conventions (`[Feature]`, `[Bug]`, etc.)
+- **Body**: Well-structured with Overview, Scope, Acceptance Criteria sections
+- **Comments**: Formatted status updates and technical notes
+
+**Configuration:**
+- Repository: `iron-software/Universal.IronPdf` (hardcoded)
+- Tool: `gh` CLI via Bash
+
 ## Documentation
 
 See **[SLASH-COMMAND-GUIDE.md](SLASH-COMMAND-GUIDE.md)** for comprehensive documentation on creating commands, including:
@@ -417,7 +451,6 @@ See **[SLASH-COMMAND-GUIDE.md](SLASH-COMMAND-GUIDE.md)** for comprehensive docum
 |---------|---------|--------|
 | `/jira-feature` | Feature request ticket | Planned |
 | `/jira-task` | Task/story ticket | Planned |
-| `/github-issue` | GitHub issue | Planned |
 | `/github-pr` | Pull request description | Planned |
 
 ## Contributing

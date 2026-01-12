@@ -54,6 +54,7 @@ git clone https://github.com/panuphanch/claude-commands.git commands
 | `/session-current` | Show current session status |
 | `/session-list` | List sessions (current project or --all) |
 | `/weekly-note` | Generate weekly log for Slack sharing |
+| `/legacy-card` | Create Trello card from Jira issue (Legacy Team) |
 
 ### `/jira-bug`
 
@@ -309,6 +310,35 @@ Generate weekly log for Slack sharing. Auto-detects current and next week dates.
 - [High] Task 2: [Description]
 - [Low] Task 3: [Description]
 ```
+
+### `/legacy-card`
+
+Create Trello card on Legacy Team board from Jira issue with auto-detection.
+
+```bash
+/legacy-card PDF-2129                           # Auto-detect type from Jira
+/legacy-card PDF-2129 --type bug --priority P1  # Override type and priority
+/legacy-card XL-789 --type docs --pr <url>      # Docs require PR link
+/legacy-card PDF-1234 --type verify             # Verification (explicit only)
+```
+
+**Arguments:**
+
+| Arg | Description | Example |
+|-----|-------------|---------|
+| `$1` | Jira ID (required) | PDF-2129, OCR-456, XL-789 |
+| `--type` | Override card type | bug, feature, docs, verify |
+| `--priority` | Override priority (bugs only) | P0, P1, P2, P3, P4 |
+| `--pr` | PR link (required for docs) | https://github.com/... |
+
+**Auto-Detection:**
+- Card type from Jira issue type (Bug → Bug, Story/Task → Feature)
+- Product from Jira project prefix (PDF → IronPdf, OCR → IronOcr, XL → IronXL)
+- Priority from Jira priority (bugs only)
+
+**MCP Requirements:**
+- Atlassian MCP (Jira integration)
+- Trello MCP (card creation)
 
 ## Documentation
 

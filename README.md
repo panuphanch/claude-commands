@@ -55,6 +55,7 @@ git clone https://github.com/panuphanch/claude-commands.git commands
 | `/session-list` | List sessions (current project or --all) |
 | `/weekly-note` | Generate weekly log for Slack sharing |
 | `/legacy-card` | Create Trello card from Jira issue (Legacy Team) |
+| `/weekly-release` | Move done cards to testing and create weekly log |
 
 ### `/jira-bug`
 
@@ -340,6 +341,65 @@ Create Trello card on Legacy Team board from Jira issue with auto-detection.
 **MCP Requirements:**
 - Atlassian MCP (Jira integration)
 - Trello MCP (card creation)
+
+### `/weekly-release`
+
+Move completed cards from "Done This Week (merged)" to "Ready for Testing" and create a weekly ticket log.
+
+```bash
+/weekly-release              # Full workflow: create log + move cards
+/weekly-release --dry-run    # Preview only, no changes
+/weekly-release --log-only   # Create log file without moving cards
+/weekly-release --move-only  # Move cards without creating log
+```
+
+**Flags:**
+
+| Flag | Description |
+|------|-------------|
+| `--dry-run` | Preview cards and actions without making changes |
+| `--log-only` | Only create the weekly log file |
+| `--move-only` | Only move cards to Ready for Testing |
+
+**Workflow:**
+1. Fetch all cards from "Done This Week (merged)" list
+2. Categorize by type (Bug/Feature) and product (IronPdf/IronOcr/IronXL/Other)
+3. Create weekly log file at `Calendar/Logs/Weekly Tickets DD-DD MMM YYYY.md`
+4. Move all cards to "Ready for Testing" list
+
+**Log File Format:**
+```markdown
+---
+created: "YYYY-MM-DD"
+week: "DD-DD MMM YYYY"
+---
+
+# Weekly Tickets (DD-DD MMM YYYY)
+
+## Summary
+| Type | Count |
+|------|-------|
+| Bug | X |
+| Feature | Y |
+| **Total** | **Z** |
+
+## Bug Fixes
+### IronPdf
+- [Bug-P0] PDF-1234 Summary - [Card](url)
+
+## Features & Improvements
+### IronBarcode
+- [Feature] BC-205 Summary - [Card](url)
+```
+
+**MCP Requirements:**
+- Trello MCP (card operations)
+
+**Configuration:**
+- Log Location: `/mnt/c/Ideaverse/Calendar/Logs/`
+- Board: Legacy Team (6955ee3a596a0fffd0a5722b)
+- Source List: Done This Week (merged)
+- Target List: Ready for Testing
 
 ## Documentation
 

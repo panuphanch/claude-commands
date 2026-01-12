@@ -330,6 +330,7 @@ Create Trello card on Legacy Team board from Jira issue with auto-detection.
 | `--type` | Override card type | bug, feature, docs, verify |
 | `--priority` | Override priority (bugs only) | P0, P1, P2, P3, P4 |
 | `--pr` | PR link (required for docs) | https://github.com/... |
+| `--notes` | Additional notes for card | "Investigate first" |
 
 **Auto-Detection:**
 - Card type from Jira issue type (Bug → Bug, Story/Task → Feature)

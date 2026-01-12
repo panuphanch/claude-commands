@@ -1,6 +1,6 @@
 ---
 description: Create Trello card on Legacy Team board from Jira issue
-argument-hint: [JIRA-ID] [--type bug|feature|docs|verify] [--priority P0-P4] [--pr <url>]
+argument-hint: [JIRA-ID] [--type bug|feature|docs|verify] [--priority P0-P4] [--pr <url>] [--notes "text"]
 ---
 
 # Legacy Card Creator
@@ -15,6 +15,7 @@ Create a Trello card on the Legacy Team board from a Jira issue with auto-detect
 - `--type bug|feature|docs|verify` - Override auto-detected card type
 - `--priority P0|P1|P2|P3|P4` - Override priority (bugs only)
 - `--pr <url>` - PR link (required for docs, optional for others)
+- `--notes "text"` - Additional notes to include in the card description
 
 **Full Arguments:** $ARGUMENTS
 
@@ -67,6 +68,7 @@ Jira Cloud ID: bc5997a0-142c-4b85-a0f3-f9fdf46dc6fc
    - `--type` value (bug, feature, docs, verify)
    - `--priority` value (P0, P1, P2, P3, P4)
    - `--pr` URL value
+   - `--notes` text value (quoted string)
 3. Validate Jira ID format (PROJECT-NUMBER pattern)
 
 **Validation Rules:**
@@ -250,6 +252,12 @@ Show success message with:
 
 # Create verification card (explicit only)
 /legacy-card PDF-1234 --type verify
+
+# Add custom notes to the card
+/legacy-card PDF-1133 --notes "Investigate first, might be font-related"
+
+# Combine multiple flags
+/legacy-card PDF-2000 --type bug --priority P2 --notes "Customer escalation - urgent"
 ```
 
 ## Behavior Notes

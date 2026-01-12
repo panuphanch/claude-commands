@@ -7,18 +7,28 @@ argument-hint: (none)
 
 End the current development session with a comprehensive summary.
 
+## Project Detection
+
+Detect project name by running these commands (in order, use first successful result):
+1. Git repository root: `basename "$(git rev-parse --show-toplevel 2>/dev/null)"`
+2. Fallback to current directory: `basename "$PWD"`
+
+Sanitize project name: lowercase, replace spaces with dashes.
+
 ## Configuration
 
-- **Sessions Location:** `~/.claude/sessions/`
+- **Project Sessions Directory:** `~/.claude/sessions/{project}/`
 - **Current Time:** !`date "+%Y-%m-%d %H:%M"`
 
 ## Instructions
 
-1. **Check for active session:**
-   - Read `~/.claude/sessions/.current-session` for active session filename
-   - If no active session, inform user there's nothing to end
+1. **Detect project name** from git repo or directory name
 
-2. **Generate comprehensive summary:**
+2. **Check for active session:**
+   - Read `~/.claude/sessions/{project}/.current-session` for active session filename
+   - If no active session, inform user there's nothing to end for this project
+
+3. **Generate comprehensive summary:**
 
    Append to the session file:
    ```markdown
@@ -68,15 +78,16 @@ End the current development session with a comprehensive summary.
    - [Tasks remaining for next session]
    ```
 
-3. **Clear active session:**
-   - Empty the contents of `~/.claude/sessions/.current-session` (don't delete the file)
+4. **Clear active session:**
+   - Empty the contents of `~/.claude/sessions/{project}/.current-session` (don't delete the file)
 
-4. **Confirm session ended:**
-   - Show summary highlights
+5. **Confirm session ended:**
+   - Show project name and summary highlights
    - Inform user the session has been documented
 
 ## Behavior
 
+- Use project-specific session directory and .current-session file
 - Generate thorough summary that another developer (or AI) can understand
 - Capture all git changes since session start
 - Include all todo items and their final status

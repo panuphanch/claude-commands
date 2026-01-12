@@ -45,13 +45,15 @@ git clone https://github.com/panuphanch/claude-commands.git commands
 | `/jira-bug` | Generate a Jira bug ticket with proper format |
 | `/daily-note` | Update daily notes from conversation context |
 | `/create-command` | Generate a new slash command template |
+| `/research` | Software engineering research using sequential-thinking and web search |
 | `/rc-test` | Test Iron Software product RC releases as QA Engineer |
 | `/rc-test-python` | Test Iron Software Python packages as QA Engineer |
-| `/session-start` | Start a new development session |
+| `/session-start` | Start a new development session (per-project) |
 | `/session-update` | Add progress update to current session |
 | `/session-end` | End session with comprehensive summary |
 | `/session-current` | Show current session status |
-| `/session-list` | List all session files |
+| `/session-list` | List sessions (current project or --all) |
+| `/weekly-note` | Generate weekly log for Slack sharing |
 
 ### `/jira-bug`
 
@@ -97,6 +99,29 @@ Generate a new slash command template (meta-command).
 /create-command pr-review    # Generate template for new command
 /create-command              # Interactive mode
 ```
+
+### `/research`
+
+Conduct structured technical research as a Software Engineer using sequential-thinking and web search tools.
+
+```bash
+/research best Python async HTTP client 2025
+/research how to implement rate limiting in Node.js
+/research React vs Vue vs Svelte 2025
+/research fix CORS error with fetch API
+```
+
+**Research Types:**
+- Library/framework evaluation
+- Implementation guides
+- Troubleshooting/debugging
+- Architecture decisions
+- Technology comparisons
+
+**Workflow:**
+1. **Analyze** - Use sequential-thinking to clarify question and plan searches
+2. **Search** - Auto-select tool (tavily/brave/firecrawl) based on research type
+3. **Synthesize** - Combine findings with trade-off analysis and recommendations
 
 ### `/rc-test`
 
@@ -171,39 +196,45 @@ Test Iron Software Python packages as a QA Engineer.
 - Tests Location: `/mnt/c/IronSoftware/IronRCTests/python-test-iron{product}/`
 - Private PyPI Feeds: Asked from user (not stored for security)
 - Multi-platform testing: Windows, Linux, macOS
+
 ### Session Management Commands
 
-Commands for tracking development sessions across Claude Code conversations.
+Track development sessions across Claude Code conversations with per-project organization.
 
-**Storage:** `~/.claude/sessions/`
+**Storage Structure:**
+```
+~/.claude/sessions/
+├── project-a/
+│   ├── .current-session
+│   └── 2025-12-26-1430-feature.md
+├── project-b/
+│   ├── .current-session
+│   └── 2025-12-25-0900-bugfix.md
+```
+
+**Project Detection:** Automatically detects project name from git repo or directory name.
 
 #### `/session-start`
 
-Start a new development session with progress tracking.
+Start a new development session for the current project.
 
 ```bash
-/session-start authentication-refactor   # With descriptive name
-/session-start                            # Timestamp-only session
+/session-start auth-refactor   # Named session
+/session-start                  # Timestamp-only session
 ```
 
 #### `/session-update`
 
-Add timestamped progress update to current session.
+Add timestamped progress to the active session.
 
 ```bash
-/session-update Fixed OAuth token refresh   # With custom notes
-/session-update                              # Auto-summarize recent activity
+/session-update Fixed OAuth issue   # With notes
+/session-update                       # Auto-summarize
 ```
 
 #### `/session-end`
 
-End session with comprehensive summary including:
-- Duration and timing
-- Git changes summary
-- Todo items completed/remaining
-- Key accomplishments
-- Problems and solutions
-- Tips for future developers
+End session with comprehensive summary (duration, git changes, accomplishments, lessons learned).
 
 ```bash
 /session-end
@@ -211,7 +242,7 @@ End session with comprehensive summary including:
 
 #### `/session-current`
 
-Show current session status (name, duration, recent updates).
+Show current session status for this project.
 
 ```bash
 /session-current
@@ -219,22 +250,64 @@ Show current session status (name, duration, recent updates).
 
 #### `/session-list`
 
-List all session files sorted by date.
+List sessions for current project, or all projects with `--all`.
 
 ```bash
-/session-list
+/session-list          # Current project only
+/session-list --all    # All projects overview
 ```
 
-#### Session Workflow Example
+#### Workflow Example
 
 ```bash
 /session-start user-authentication
 # Work on implementation...
-/session-update Added middleware and login page
-# Fix issues...
-/session-update Resolved Next.js 15 async cookie issue
+/session-update Added login middleware
+# Continue working...
+/session-update Fixed token refresh
 # When done...
 /session-end
+```
+
+### `/weekly-note`
+
+Generate weekly log for Slack sharing. Auto-detects current and next week dates.
+
+```bash
+/weekly-note    # Auto-detects dates, reads daily logs
+```
+
+**Configuration:**
+- Notes Location: `/mnt/c/Ideaverse/Calendar/Notes/`
+- Daily Log Format: `YYYY-MM-DD.md`
+
+**Workflow:**
+1. Calculate this week (Mon-Fri) and next week date ranges
+2. Read daily logs from current week
+3. Extract tasks with status markers
+4. Find next week's planned tasks from latest daily note
+5. Output Slack-ready format
+
+**Status Markers:**
+
+| Status | Obsidian | Slack Output |
+|--------|----------|--------------|
+| Completed | ✅ | ✅ |
+| In-Progress | 🔄 | `:loading:` |
+| Leave | 🏖️ | 🏖️ |
+
+**Output Format:**
+```markdown
+## @Meee's Weekly Update (Mon DD - Fri DD, Mon YYYY)
+
+### Last Week's Tasks
+- ✅ Task 1: [Description]
+- :loading: Task 2: [In-progress]
+
+### This Week's Tasks
+- [Highest] Task 1: [Description]
+- [High] Task 2: [Description]
+- [Low] Task 3: [Description]
 ```
 
 ## Documentation
